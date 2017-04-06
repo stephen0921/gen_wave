@@ -200,7 +200,8 @@ class c_gen_wave(object):
             if sum < self.bus_width:  # padding
                 self.info(
                     'dont_care signal will be put into the waveform \
-since signal width sum is less than bus_width(%d)' % self.bus_width)
+since signal width sum %d is less \
+than bus_width %d' % (sum, self.bus_width))
 
                 if self.order == 'l2h':
                     start_pos = start_pos + width
@@ -213,7 +214,7 @@ since signal width sum is less than bus_width(%d)' % self.bus_width)
                 m_padding_signal.set_padding()
                 self.signal_lists.append(m_padding_signal)
             if sum > self.bus_width:  # if not start_pos == width - 1:
-                self.error('All signal width sum %s should \
+                self.error('All signal width sum %d should \
 not exceed %d' % (sum, self.bus_width))
                 # print "start_pos = %d" % start_pos
                 # print "width = %d" % width
