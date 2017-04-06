@@ -70,10 +70,12 @@ class c_gen_wave(object):
             if match is None:
                 vcd_file_name = out_fh.name + '.vcd'
                 fsdb_file_name = out_fh.name + '.fsdb'
+                out_fh.close()
+                subprocess.Popen(['rm', '-rf', out_fh.name])
             else:
                 vcd_file_name = match.group(1) + '.vcd'
                 fsdb_file_name = out_fh.name
-            out_fh.close()
+                out_fh.close()
             vcd_fh = open(vcd_file_name, 'w')
             writer = VCDWriter(vcd_fh, timescale='1 ns', date='today')
             line_num = 0
@@ -198,7 +200,7 @@ class c_gen_wave(object):
             if sum < self.bus_width:  # padding
                 self.info(
                     'dont_care signal will be put into the waveform \
- since signal width sum is less than bus_width(%d)' % self.bus_width)
+since signal width sum is less than bus_width(%d)' % self.bus_width)
 
                 if self.order == 'l2h':
                     start_pos = start_pos + width
