@@ -30,7 +30,7 @@ def gen(args):
 
 class my_exception(Exception):
     def __str__(self):
-        print "Some thing is wrong!"
+        print '\033[41m Some thing is wrong!\033[0m'
 
 
 class c_signal(object):
