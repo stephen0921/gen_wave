@@ -1,0 +1,24 @@
+* Discription
+
+The gen_wave.py is used to generate waveform based on memory data file and signal description file.
+
+* Memory data file
+
+The memory data file is expected to be in hex, and each data is 32/64/128/256 bit width, by default 64. You can also get one demo memory data, using the following command:
+#+BEGIN_SRC sh
+python gen_wave.py debug -gm mem_data.txt
+#+END_SRC
+
+* Signal description file
+
+The signal description file is given which is named signals.txt as an example.
+
+* Usage
+
+#+BEGIN_SRC sh
+python gen_wave.py gen -im mem_data.txt -is signals.txt -o gen.fsdb
+#+END_SRC
+
+* Dependencies
+
+Based on Python version 2.7.13. Thanks to [[https://github.com/SanDisk-Open-Source/pyvcd][PyVCD]]. Please refer file requirements for other details.
