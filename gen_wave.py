@@ -178,25 +178,34 @@ class c_gen_wave(object):
                     else:
                         start_pos = start_pos - width
                     # print "start_pos = %d" % start_pos
-                    match = re.search("(\w+):\s*(\d+)", line)
+                    match = re.search('(\w+)\[(\d+):(\d+)\]', line)
                     if match:
-                        signal_name = match.group(1)
-                        signal_width = int(match.group(2))
+                        signal_name = match.group(1) + ' [' + match.group(2) + ':' + match.group(3) + ']'
+                        signal_width = int(match.group(2)) - int(match.group(3)) + 1
                     else:
-                        match = re.search("\w+", line)
+                        match = re.search('(\w+)\[(\d+)\]', line)
                         if match:
-                            signal_name = match.group(0)
+                            signal_name = match.group(1) + ' [' + match.group(2) + ']'
                             signal_width = 1
                         else:
-                            print line
-                            print "Unknow format in signal file"
-                            raise my_exception
+                            match = re.search('\w+', line)
+                            if match:
+                                signal_name = match.group(0)
+                                signal_width = 1
+                            else:
+                                print line
+                                print "Unknow format in signal file"
+                                raise my_exception
                     m_signal = c_signal(pos=start_pos,
                                         name=signal_name, width=signal_width)
                     self.signal_lists.append(m_signal)
                     width = signal_width
                     sum = sum + width
             in_fh.close()
+            if sum == 0: # no signal in signal file
+                self.info(
+                    'No signals are found in %s' % in_fh.name
+                )
             if sum < self.bus_width:  # padding
                 self.info(
                     'dont_care signal will be put into the waveform \
@@ -208,8 +217,11 @@ than bus_width %d' % (sum, self.bus_width))
                 else:
                     start_pos = start_pos - width
 
+                name = 'dont_care' + ' [' + str(self.bus_width - 1) + ':' + str(sum)  + ']'
+                if self.bus_width - sum == 1:
+                    name = 'dont_care' + ' [' + str(self.bus_width - 1) + ']'
                 m_padding_signal = c_signal(pos=start_pos,
-                                            name='dont_care',
+                                            name=name,
                                             width=(self.bus_width-sum))
                 m_padding_signal.set_padding()
                 self.signal_lists.append(m_padding_signal)
