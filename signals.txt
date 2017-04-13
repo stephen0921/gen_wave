@@ -1,7 +1,9 @@
-aaa:8
-bbb
+aaa[15:8]
+bbb[2]
 # I am a comment
-ccc:7
-ddd:15
-#eee
+ccc[6:0]
+ddd[13:0]
+eee
 #fff
+
+ 
